@@ -2416,6 +2416,7 @@ MonoBehaviour:
   _spped: 2
   _move_limit: 10
   _direction_size: 360
+  _set_rate_speed: 0
 --- !u!1 &1912030860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,17 +2527,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2231862ff0d547745a050c992f3b8c40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawn:
-  - type: 0
-    spawn_time: 5
-    move_speed: 10
-  - type: 0
-    spawn_time: 5
-    move_speed: 5
-  - type: 0
-    spawn_time: 5
-    move_speed: 10
   _enemy: {fileID: 1561190912734112, guid: af43fb9c0e37a7a4295bc0a78fcc21d3, type: 2}
+  _editor_max_index: 3
+  _editor_type: 000000000000000000000000
+  _editor_spawn_time:
+  - 1
+  - 5
+  - 0
+  _editor_move_speed:
+  - 11
+  - 20
+  - 0
+  _editor_hit_point: 010000000100000000000000
+  _editor_foldout: 0101000000000000
 --- !u!4 &1962164789
 Transform:
   m_ObjectHideFlags: 0

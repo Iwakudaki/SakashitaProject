@@ -6,9 +6,11 @@ public abstract class Character : MonoBehaviour {
 	protected bool _is_death = false;
 
 	protected abstract void Move( );
-	protected abstract void Shoot( );
+	protected abstract void Death( );
 
 	public bool getIsDeath( ) { 
 		return _is_death;	
 	}
+
+
 }
