@@ -2295,6 +2295,7 @@ GameObject:
   - component: {fileID: 1904756538}
   - component: {fileID: 1904756542}
   - component: {fileID: 1904756543}
+  - component: {fileID: 1904756544}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -2362,8 +2363,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1904756537}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2411,12 +2412,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gaze_controller: {fileID: 1912030864}
-  _bullet: {fileID: 1371680674361082, guid: beff3dcc6b82c974f856e3b6a7347ecd, type: 2}
+  _gun: {fileID: 1904756544}
   _pos_z: 5
   _spped: 2
   _move_limit: 10
   _direction_size: 360
-  _set_rate_speed: 0
+--- !u!114 &1904756544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1904756537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d20bf96fdcd1f45a648bcc578193e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _set_next_shoot_time: 3
+  _bullet: {fileID: 1371680674361082, guid: beff3dcc6b82c974f856e3b6a7347ecd, type: 2}
 --- !u!1 &1912030860
 GameObject:
   m_ObjectHideFlags: 0
