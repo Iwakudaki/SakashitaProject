@@ -10,12 +10,14 @@ public class SpawnManager : MonoBehaviour {
 	[ System.Serializable ]
 	private struct Spawn {
 		public Enemy.ENEMY_TYPE type;
+		public SpawnAreaRegistry.AREA area;
 		public float spawn_time;
 		public float move_speed;
 		public int hit_point;
 	};
 
 	[ SerializeField ] private List< Spawn > _spawn = new List< Spawn >( );
+	[ SerializeField ] private SpawnAreaRegistry _spawn_area_registry = null;
 	[ SerializeField ] private GameObject _enemy = null;
 	private float _spawn_count = 0;
 
@@ -67,7 +69,8 @@ public class SpawnManager : MonoBehaviour {
 	private void SpawnEnemy( ) {
 		//時間になったら生成
 		if ( IsSpawn( ) ) {
-			GameObject enemy_obj = Instantiate( ( GameObject )_enemy, transform.position, Quaternion.identity );
+			GameObject spawn_area = _spawn_area_registry.getSpawnArea( _spawn[ SPAWN_ORDER_IDX ].area );
+			GameObject enemy_obj = Instantiate( ( GameObject )_enemy, spawn_area.transform.position, Quaternion.identity );
 			Enemy enemy = enemy_obj.GetComponent< Enemy >( );
 			enemy.Initialize( _spawn[ SPAWN_ORDER_IDX ].type, _spawn[ SPAWN_ORDER_IDX ].move_speed, _spawn[ SPAWN_ORDER_IDX ].hit_point );
 			_spawn.Remove( _spawn[ SPAWN_ORDER_IDX ] );
