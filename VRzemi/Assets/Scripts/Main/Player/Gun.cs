@@ -28,8 +28,6 @@ public class Gun : MonoBehaviour {
 				_next_shoot_time = 0;
 				_is_shoot = true;
 			}
-		} else {
-			_next_shoot_time = _set_next_shoot_time;
 		}
 	}
 
@@ -44,5 +42,6 @@ public class Gun : MonoBehaviour {
 		bullet.setTarget( lock_on_obj );	//弾に追尾する対象を入れる
 		
 		_is_shoot = false;	//一度撃ったら撃てない状態にする
+		_next_shoot_time = _set_next_shoot_time;
 	}
 }
