@@ -40,8 +40,7 @@ public class Enemy : Character {
 	}
 
 	protected override void Death( ) {
-		if ( _hit_point <= 0 ) { 
-			_is_death = true;
+		if ( _hit_point <= 0 ) {
 			Destroy( this.gameObject );
 		}
 	}
