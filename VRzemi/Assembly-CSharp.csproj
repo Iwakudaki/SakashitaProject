@@ -351,10 +351,14 @@
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\OVRVoiceMod.cs" />
     <Compile Include="Assets\Oculus\VoiceMod\Scripts\OVRVoiceModContext.cs" />
     <Compile Include="Assets\Scripts\Main\Character.cs" />
+    <Compile Include="Assets\Scripts\Main\Enemy\ArcMove.cs" />
     <Compile Include="Assets\Scripts\Main\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Main\Enemy\EnemyMove.cs" />
+    <Compile Include="Assets\Scripts\Main\Enemy\SpawnArea.cs" />
+    <Compile Include="Assets\Scripts\Main\Enemy\SpawnAreaRegistry.cs" />
     <Compile Include="Assets\Scripts\Main\Enemy\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\Main\Enemy\StraightMove.cs" />
+    <Compile Include="Assets\Scripts\Main\Enemy\WaveMove.cs" />
     <Compile Include="Assets\Scripts\Main\GazeController.cs" />
     <Compile Include="Assets\Scripts\Main\Player\Bullet.cs" />
     <Compile Include="Assets\Scripts\Main\Player\Gun.cs" />
