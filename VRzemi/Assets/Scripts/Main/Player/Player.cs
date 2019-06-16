@@ -58,8 +58,8 @@ public class Player : Character {
 
 	private void Shoot( ) {
 		//敵をロックオンしていたら撃つ
-		if ( _gaze_controller.getHitObject( ) != null ) {
-			_gun.Shoot( _gaze_controller.getHitObject( ) );	
+		if ( _gaze_controller.getLockOnObject( ) != null ) {
+			_gun.Shoot( _gaze_controller.getLockOnObject( ) );	
 		}
 	}
 
@@ -84,10 +84,4 @@ public class Player : Character {
 }
 
 //視線とオブジェクトの角度の合わせ方がよくわからない。PlayerのZには謎の値が入る　//360をかける
-
-//ロックオンしたらしてる間は撃ち続けることができる
-//敵には体力がある。
-//ロックオン中の敵は赤いエフェクトをまとわせる
-//ロックオンが完了したらその敵にUIを表示
 //Debug・Releaseで使う処理と使わない処理を分けるようにする。
-//敵の生成場所は二か所

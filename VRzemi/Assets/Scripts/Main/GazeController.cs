@@ -53,6 +53,7 @@ public class GazeController : MonoBehaviour {
 			return;
 		}
 
+		//前のフレームで取得したオブジェクトと一緒だったらロックオンを始める(同じオブジェクトじゃなくてもカウントがそのまま進むバグ防止)
 		if ( _hit_object != hit.collider.gameObject ) { 
 			_hit_object = hit.collider.gameObject;
 			_is_lock_on = false;
@@ -72,8 +73,6 @@ public class GazeController : MonoBehaviour {
 		if ( _lock_on_timer < 0 ) { 
 			_lock_on_timer = 0;	
 		}
-
-		Debug.Log( _lock_on_timer );
 	}
 
 	public Vector3 getDirection( ) {
@@ -84,15 +83,22 @@ public class GazeController : MonoBehaviour {
 		return _is_hit;
 	}
 
-	public GameObject getHitObject( ) {
-		//視線がオブジェクトにヒットしていて、一定以上見ていたらそのオブジェクト返す
+	public GameObject getLockOnObject( ) {
+		//視線がオブジェクトにヒットしていて、一定以上見ていたら(ロックオンが完了していたら)そのオブジェクト返す
 		if ( _hit_object == null || _lock_on_timer > 0 ) { 
 			return null;
 		} else {
 			return _hit_object;
 		}
 	}
+
+	public GameObject getLockOnDoingObject( ) {
+		//視線がオブジェクトにヒットしていて、一定以上見ていなかったら(ロックオン中だったら)そのオブジェクトを返す
+		if ( _hit_object != null && _lock_on_timer > 0 ) { 
+			return _hit_object;
+		} else {
+			return null;
+		}
+		
+	}
 }
-
-
-//UniRXを使いロックオンができたら通知する？

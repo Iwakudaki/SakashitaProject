@@ -27,7 +27,7 @@ public class Enemy : Character {
 	}
 
 	private void OnTriggerEnter( Collider other ) {
-		if ( other.gameObject.tag == "Bullet" ) { 
+		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.BULLET ) ) { 
 			_hit_point--;
 			if ( _hit_point < 0 ) { 
 				_hit_point = 0;

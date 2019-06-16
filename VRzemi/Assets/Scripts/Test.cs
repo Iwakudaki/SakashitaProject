@@ -68,8 +68,8 @@ public class Test : MonoBehaviour {
 		
 		_debug_ray_hit_text.text = _gaze_controller.getIsHit( ).ToString( );
 
-		if ( _gaze_controller.getHitObject( ) != null ) { 
-			_debug_hit_object_text.text = _gaze_controller.getHitObject( ).ToString( );
+		if ( _gaze_controller.getLockOnObject( ) != null ) { 
+			_debug_hit_object_text.text = _gaze_controller.getLockOnObject( ).ToString( );
 		} else { 
 			_debug_hit_object_text.text = "NULL";
 		}
@@ -154,8 +154,8 @@ public class Test : MonoBehaviour {
 
 		_debug_ray_hit_text.text = _gaze_controller.getIsHit( ).ToString( );
 
-		if ( _gaze_controller.getHitObject( ) != null ) { 
-			_debug_hit_object_text.text = _gaze_controller.getHitObject( ).ToString( );
+		if ( _gaze_controller.getLockOnObject( ) != null ) { 
+			_debug_hit_object_text.text = _gaze_controller.getLockOnObject( ).ToString( );
 		} else { 
 			_debug_hit_object_text.text = "NULL";
 		}
