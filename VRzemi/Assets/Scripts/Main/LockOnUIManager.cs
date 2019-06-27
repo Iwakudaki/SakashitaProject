@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class LockOnUIManager : MonoBehaviour {
 	[ SerializeField ] private GazeController _gaze_controller = null;
@@ -11,6 +12,8 @@ public class LockOnUIManager : MonoBehaviour {
 	GameObject _pre_lock_on_done_obj = null;
 
 	private void Start( ) {
+		CheckReference( );
+
 		_lock_on_doing_ui.SetActive( false );
 		_lock_on_done_ui.SetActive( false );
 	}
@@ -24,7 +27,7 @@ public class LockOnUIManager : MonoBehaviour {
 		//ロックオン中UIの表示切替---------------------------------------------------------------------------
 		//ロックオン中UIが表示されていてロックオン中のオブジェクトがNULLだったら非表示にする
 		if ( _lock_on_doing_ui.activeSelf && _gaze_controller.getLockOnDoingObject( ) == null ) { 
-			_lock_on_doing_ui.SetActive( false );	
+			_lock_on_doing_ui.SetActive( false );
 		}
 
 		//前のフレームの時とロックオン中のオブジェクトが違っていてオブジェクトがNULLじゃなかったら表示更新
@@ -62,6 +65,12 @@ public class LockOnUIManager : MonoBehaviour {
 		if ( _lock_on_done_ui.activeSelf && _gaze_controller.getLockOnObject( ) != null ) { 
 			_lock_on_done_ui.transform.position = _gaze_controller.getLockOnObject( ).transform.position;
 		}
-	} 
+	}
+
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _gaze_controller, "[LockOnUIManager]GazeControllerの参照がありません" );
+		Assert.IsNotNull( _lock_on_doing_ui, "[LockOnUIManager]GameObjectのLockOnDoingUIの参照がありません" );
+		Assert.IsNotNull( _lock_on_done_ui, "[LockOnUIManager]GameObjectのLockOndoneUIの参照がありません" );
+	}
 
 }

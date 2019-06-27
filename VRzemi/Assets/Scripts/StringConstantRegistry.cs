@@ -6,6 +6,7 @@ public static class StringConstantRegistry {
 	public enum TAG { 
 		BULLET,
 		ENEMY,
+		ENEMY_DESTORY_AREA,
 	}
 
 	public enum SCENE_NAME { 
@@ -22,9 +23,12 @@ public static class StringConstantRegistry {
 			case TAG.ENEMY:
 				return "Enemy";
 
+			case TAG.ENEMY_DESTORY_AREA:
+				return "EnemyDestroyArea";
+
 			default:
 				return null;
-		}	
+		}
 	}
 
 	public static string getSceneName( SCENE_NAME scene_name ) { 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Gun : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class Gun : MonoBehaviour {
 
 
 	private void Start( ) {
+		CheckReference( );
+
 		_next_shoot_time = _set_next_shoot_time;
 	}
 
@@ -31,16 +34,21 @@ public class Gun : MonoBehaviour {
 		}
 	}
 
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _bullet, "[Gun]PrefubのBulletの参照がありません" );
+	}
+
 	public void Shoot( GameObject lock_on_obj ) {
 		if ( !_is_shoot ) return;	//撃てる状態でなければ撃たない
 
 		Vector3 bullet_dir = lock_on_obj.transform.position - transform.position;
 		GameObject bullet_obj = Instantiate( _bullet, transform.position, Quaternion.LookRotation( bullet_dir.normalized ) );
 
-		//どうにかしないと
+		//どうにかしないと-----------------------------------------------
 		Bullet bullet = bullet_obj.GetComponent< Bullet >( );
 		bullet.setTarget( lock_on_obj );	//弾に追尾する対象を入れる
-		
+		//---------------------------------------------------------------
+
 		_is_shoot = false;	//一度撃ったら撃てない状態にする
 		_next_shoot_time = _set_next_shoot_time;
 	}

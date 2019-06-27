@@ -19,7 +19,7 @@ public class GazeController : MonoBehaviour {
 	}
 
 	private void Start( ) {
-		Assert.IsNotNull( _gaze_canvas, "[GazeController]GazeCanvasの参照がありません" );
+		CheckReference( );
 	}
 
 	private void FixedUpdate( ) {
@@ -47,7 +47,7 @@ public class GazeController : MonoBehaviour {
 	}
 
 	private void LockOn(  RaycastHit hit ) {
-		if ( hit.collider == null ) {
+		if ( hit.collider == null || hit.collider.tag != StringConstantRegistry.getTag( StringConstantRegistry.TAG.ENEMY ) ) {
 			_hit_object = null;
 			_is_lock_on = false;
 			return;
@@ -73,6 +73,10 @@ public class GazeController : MonoBehaviour {
 		if ( _lock_on_timer < 0 ) { 
 			_lock_on_timer = 0;	
 		}
+	}
+
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _gaze_canvas, "[GazeController]GazeCanvasの参照がありません" );
 	}
 
 	public Vector3 getDirection( ) {

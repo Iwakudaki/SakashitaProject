@@ -11,10 +11,15 @@ public class Enemy : Character {
 		TYPE_C,
 	};
 
+	private ScoreManager _scoreManager = null;
 	private EnemyMove _enemy_move = null;
 	private ENEMY_TYPE _enemy_type = ENEMY_TYPE.TYPE_A;
 	private float _move_speed = 0;
 	private int _hit_point = 0;
+
+	private void Awake( ) {
+		_scoreManager = ScoreManager.getInstance( );
+	}
 
 	private void FixedUpdate( ) {
 		if ( _enemy_move == null ) return;	//初期化されるまで更新しない
@@ -33,6 +38,10 @@ public class Enemy : Character {
 				_hit_point = 0;
 			}
 		}
+
+		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.ENEMY_DESTORY_AREA ) ) {		//敵削除エリアに入ったら
+			Destroy( this.gameObject );	
+		}
 	}
 
 	protected override void Move( ) {
@@ -41,6 +50,25 @@ public class Enemy : Character {
 
 	protected override void Death( ) {
 		if ( _hit_point <= 0 ) {
+
+			switch ( _enemy_type ) { 
+				case ENEMY_TYPE.TYPE_A:
+					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_A );
+					break;
+
+				case ENEMY_TYPE.TYPE_B:
+					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
+					break;
+
+				case ENEMY_TYPE.TYPE_C:
+					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
+					break;
+
+				default:
+					Assert.IsNotNull( _enemy_move, "[Enemy]動きの種類が入ってません" );
+					break;
+			}
+
 			Destroy( this.gameObject );
 		}
 	}
@@ -57,21 +85,16 @@ public class Enemy : Character {
 				break;
 
 			case ENEMY_TYPE.TYPE_B:
-				_enemy_move = new StraightMove( );
+				_enemy_move = new ArcMove( );
 				break;
 
 			case ENEMY_TYPE.TYPE_C:
-				_enemy_move = new StraightMove( );
+				_enemy_move = new WaveMove( );
 				break;
 
 			default:
-				Assert.IsNotNull( _enemy_move, "[Enemy]動きの種類が入ってません" );
+				Assert.IsNotNull( _enemy_move, "[Enemy]敵の種類が入ってません" );
 				break;
 		}
 	}
-
-	
-	//private Vector3 MoveA( ) { }
-	//private Vector3 MoveB( ) { }
-	//private Vector3 MoveC( ) { }
 }

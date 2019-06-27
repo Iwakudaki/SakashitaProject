@@ -42,7 +42,7 @@ public class CountDown : MonoBehaviour {
 
 		if ( _count_down_time < 0 ) {	//次のカウントをする時間だったら
 			_count_down_time = 0;
-			_is_next_count = !_is_next_count;	//次のカウントをできる状態にする
+			_is_next_count = true;	//次のカウントをできる状態にする
 		}
 	}
 
@@ -59,7 +59,7 @@ public class CountDown : MonoBehaviour {
 	}
 
 	private void FinishCountDown( ) { 
-		_is_finish_count = !_is_finish_count;	//カウントを終了状態に
+		_is_finish_count = true;				//カウントを終了状態に
 		this.gameObject.SetActive( false );		
 		Resources.UnloadUnusedAssets( );		//読み込んで使ってない画像をメモリ解放
 	}
@@ -67,7 +67,7 @@ public class CountDown : MonoBehaviour {
 	private void NextCountDown( ) { 
 		_image.sprite = _cound_down_sprites[ _now_count_index ];	//次のカウントを表示する
 		_count_down_time = _set_count_down_time;					//次のカウントをする時間をリセット
-		_is_next_count = !_is_next_count;							//次のカウントを出来ない状態にする
+		_is_next_count = false;										//次のカウントを出来ない状態にする
 	}
 
 	private void CheckReference( ) { 
@@ -83,4 +83,4 @@ public class CountDown : MonoBehaviour {
 
 }
 
-//ファイルパスもタグとかを管理するクラスに入れる？
+//画像やサウンドの参照を一括管理するクラスを作る？Flyweight パターン

@@ -14,9 +14,10 @@ public class Player : Character {
 	private Controller _controller = new Controller( );
 	private Vector3 _limit_pos = new Vector3( 0, 0, 0 );
 	private float _pre_pos_x = 0;
+	private bool _is_death = false;
 
 	private void Start( ) {
-		Assert.IsNotNull( _gaze_controller, "[Player]GazeControllerの参照がありません" );
+		CheckReference( );
 
 		_limit_pos = new Vector3( transform.position.x + _move_limit, 0, _pos_z );
 		transform.position = new Vector3( 0, 0, _pos_z );
@@ -28,13 +29,17 @@ public class Player : Character {
 
 	private void Update( ) {
 		Direction( );
-
-		if ( _controller.getCotrollerInput( Controller.INPUT_TYPE.TRIGGER ) ) {
-			Shoot( );
-		}
-
+		Shoot( );
+		Death( );	
 	}
 
+	private void OnTriggerEnter( Collider other ) {
+		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.ENEMY ) ) { 
+			_is_death = true;
+		}
+	}
+
+	//移動処理
 	protected override void Move( ) {
 		Vector2 pos = _controller.getControllerPos( );
 
@@ -52,11 +57,17 @@ public class Player : Character {
 		MoveLimit( );
 	}
 
+	//死亡処理
 	protected override void Death( ) {
-		return;
+		if ( !_is_death ) return;	//死亡フラグが立っていなかったらreturn
+
+		Destroy( this.gameObject );
 	}
 
+	//射撃処理
 	private void Shoot( ) {
+		if ( !_controller.getCotrollerInput( Controller.INPUT_TYPE.TRIGGER ) ) return;	//ボタンを入力してなかったらreturn
+
 		//敵をロックオンしていたら撃つ
 		if ( _gaze_controller.getLockOnObject( ) != null ) {
 			_gun.Shoot( _gaze_controller.getLockOnObject( ) );	
@@ -80,6 +91,16 @@ public class Player : Character {
 		Vector3 player_dir = new Vector3( -_gaze_controller.getDirection( ).y, _gaze_controller.getDirection( ).x, 0 );	//恐らく、2Dと3Dで向きの計算が違うため入れ替えてる(2Dは単純にｘは横、ｙは縦。3Dはそれぞれの線の軸を中心に回転する)
 		transform.eulerAngles = player_dir * _direction_size;
 	}
+
+	private void CheckReference( ) {
+		Assert.IsNotNull( _gaze_controller, "[Player]GazeControllerの参照がありません" );
+		Assert.IsNotNull( _gun, "[Player]Gunの参照がありません" );
+	}
+
+
+	public float getMoveLimit( ) { 
+		return _move_limit;	
+	} 
 
 }
 

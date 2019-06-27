@@ -48,11 +48,9 @@ public class SpawnManager : MonoBehaviour {
 	}
 
 	private void Start( ) {
-		if ( _spawn.Count != 0 ) {
-			_spawn_count = _spawn[ SPAWN_ORDER_IDX ].spawn_time;
-		} else { 
-			Assert.IsNotNull( null, "[SpawnManger]敵の要素がありません" );
-		}
+		CheckReference( );
+
+		_spawn_count = _spawn[ SPAWN_ORDER_IDX ].spawn_time;
 	}
 
 	private void FixedUpdate( ) {
@@ -70,7 +68,7 @@ public class SpawnManager : MonoBehaviour {
 		//時間になったら生成
 		if ( IsSpawn( ) ) {
 			GameObject spawn_area = _spawn_area_registry.getSpawnArea( _spawn[ SPAWN_ORDER_IDX ].area );
-			GameObject enemy_obj = Instantiate( ( GameObject )_enemy, spawn_area.transform.position, Quaternion.identity );
+			GameObject enemy_obj = Instantiate( ( GameObject )_enemy, spawn_area.transform.position, Quaternion.AngleAxis( 180f, new Vector3( 0, 1, 0 ) ) );
 			Enemy enemy = enemy_obj.GetComponent< Enemy >( );
 			enemy.Initialize( _spawn[ SPAWN_ORDER_IDX ].type, _spawn[ SPAWN_ORDER_IDX ].move_speed, _spawn[ SPAWN_ORDER_IDX ].hit_point );
 			_spawn.Remove( _spawn[ SPAWN_ORDER_IDX ] );
@@ -94,6 +92,14 @@ public class SpawnManager : MonoBehaviour {
 
 	private bool IsSpawnNext( ) { 
 		return	_spawn.Count != 0;
+	}
+
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _spawn_area_registry, "[SpawnManger]SpawnAreaRegistryの参照がありません" );
+		Assert.IsNotNull( _enemy, "[SpawnManger]PrefubのEnemyの参照がありません" );
+		if ( _spawn.Count == 0 ) { 
+			Assert.IsNotNull( null, "[SpawnManger]敵の要素がありません" );
+		}
 	}
 
 	//public void SpawnUpdate( ) { 

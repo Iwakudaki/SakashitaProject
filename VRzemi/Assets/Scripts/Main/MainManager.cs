@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class MainManager : ScenesManager {
 	[ SerializeField ] private TextMesh _time_limit_text = null;
@@ -10,6 +11,8 @@ public class MainManager : ScenesManager {
 	private bool _is_finish_time_limit = false;
 
 	private void Start( ) {
+		CheckReference( );
+
 		int show_time_limit = ( int )_time_limit;
 		_time_limit_text.text = show_time_limit.ToString( );
 	}
@@ -31,7 +34,7 @@ public class MainManager : ScenesManager {
 
 		if ( _time_limit <= 0 ) { 
 			_time_limit = 0;
-			_is_finish_time_limit = !_is_finish_time_limit;
+			_is_finish_time_limit = true;
 			return;
 		}
 		_time_limit -= Time.deltaTime;
@@ -41,6 +44,11 @@ public class MainManager : ScenesManager {
 		int show_time_limit = ( int )_time_limit;
 		_time_limit_text.text = show_time_limit.ToString( );
 	}
+
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _time_limit_text, "[MainManager]GameObjectのTimeLimitTextの参照がありません" );
+	}
+
 
 	protected override void NextScene( ) { 
 		_scene_changer.SceneChange( StringConstantRegistry.SCENE_NAME.RESULT );
