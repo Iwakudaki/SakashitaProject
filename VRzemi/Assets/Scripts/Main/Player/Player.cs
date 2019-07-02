@@ -70,7 +70,7 @@ public class Player : Character {
 
 		//敵をロックオンしていたら撃つ
 		if ( _gaze_controller.getLockOnObject( ) != null ) {
-			_gun.Shoot( _gaze_controller.getLockOnObject( ) );	
+			_gun.Shoot( _gaze_controller.getLockOnObject( ) );
 		}
 	}
 

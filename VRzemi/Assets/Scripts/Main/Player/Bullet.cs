@@ -23,12 +23,6 @@ public class Bullet : MonoBehaviour {
 		//transform.position += transform.forward * _speed;
 	}
 
-	private void OnTriggerEnter( Collider other ) {
-		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.ENEMY ) ) {
-			Destroy( this.gameObject );
-		}
-	}
-
 	public void setTarget( GameObject target_obj ) {
 		_target_obj = target_obj;
 	}

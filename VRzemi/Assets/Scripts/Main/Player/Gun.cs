@@ -8,9 +8,13 @@ public class Gun : MonoBehaviour {
 	[ SerializeField ] private float _set_next_shoot_time = 0;	//次に撃てるまでの時間
 	[ SerializeField ] private GameObject _bullet = null;
 
+	private AudioSource _audio_source = null;
 	private float _next_shoot_time = 0;
 	private bool _is_shoot = true;
 
+	private void Awake( ) {
+		_audio_source = GetComponent< AudioSource >( );
+	}
 
 	private void Start( ) {
 		CheckReference( );
@@ -36,6 +40,7 @@ public class Gun : MonoBehaviour {
 
 	private void CheckReference( ) { 
 		Assert.IsNotNull( _bullet, "[Gun]PrefubのBulletの参照がありません" );
+		Assert.IsNotNull( _audio_source, "[Gun]AudioSourceがアタッチされていません" );
 	}
 
 	public void Shoot( GameObject lock_on_obj ) {
@@ -43,6 +48,8 @@ public class Gun : MonoBehaviour {
 
 		Vector3 bullet_dir = lock_on_obj.transform.position - transform.position;
 		GameObject bullet_obj = Instantiate( _bullet, transform.position, Quaternion.LookRotation( bullet_dir.normalized ) );
+
+		_audio_source.PlayOneShot( SoundRegistry.getSE( SoundRegistry.SE.BULLET ) );
 
 		//どうにかしないと-----------------------------------------------
 		Bullet bullet = bullet_obj.GetComponent< Bullet >( );

@@ -8,8 +8,13 @@ public class LockOnUIManager : MonoBehaviour {
 	[ SerializeField ] private GameObject _lock_on_doing_ui = null;
 	[ SerializeField ] private GameObject _lock_on_done_ui = null;
 
-	GameObject _pre_lock_on_doing_obj = null;
-	GameObject _pre_lock_on_done_obj = null;
+	private GameObject _pre_lock_on_doing_obj = null;
+	private GameObject _pre_lock_on_done_obj = null;
+	private AudioSource _audio_source = null;
+
+	private void Awake( ) {
+		_audio_source = GetComponent< AudioSource >( );
+	}
 
 	private void Start( ) {
 		CheckReference( );
@@ -47,6 +52,7 @@ public class LockOnUIManager : MonoBehaviour {
 		if ( _pre_lock_on_done_obj != _gaze_controller.getLockOnObject( ) && 
 			 _gaze_controller.getLockOnObject( ) != null ) {
 			_lock_on_done_ui.SetActive( true );
+			_audio_source.PlayOneShot( SoundRegistry.getSE( SoundRegistry.SE.LOCK_ON ) );
 		}
 		//---------------------------------------------------------------------------------------------------
 
@@ -71,6 +77,7 @@ public class LockOnUIManager : MonoBehaviour {
 		Assert.IsNotNull( _gaze_controller, "[LockOnUIManager]GazeControllerの参照がありません" );
 		Assert.IsNotNull( _lock_on_doing_ui, "[LockOnUIManager]GameObjectのLockOnDoingUIの参照がありません" );
 		Assert.IsNotNull( _lock_on_done_ui, "[LockOnUIManager]GameObjectのLockOndoneUIの参照がありません" );
+		Assert.IsNotNull( _audio_source, "[LockOnUIManager]AudioSourceがアタッチされていません" );
 	}
 
 }

@@ -12,6 +12,7 @@ public class Enemy : Character {
 	};
 
 	private ScoreManager _scoreManager = null;
+	private AudioSource _audio_source = null;
 	private EnemyMove _enemy_move = null;
 	private ENEMY_TYPE _enemy_type = ENEMY_TYPE.TYPE_A;
 	private float _move_speed = 0;
@@ -19,6 +20,7 @@ public class Enemy : Character {
 
 	private void Awake( ) {
 		_scoreManager = ScoreManager.getInstance( );
+		_audio_source = GetComponent< AudioSource >( );
 	}
 
 	private void FixedUpdate( ) {
@@ -32,9 +34,11 @@ public class Enemy : Character {
 	}
 
 	private void OnTriggerEnter( Collider other ) {
-		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.BULLET ) ) { 
+		//弾に当たったら体力を減らす
+		if ( other.gameObject.tag == StringConstantRegistry.getTag( StringConstantRegistry.TAG.BULLET ) ) {
+			Destroy( other.gameObject );
 			_hit_point--;
-			if ( _hit_point < 0 ) { 
+			if ( _hit_point < 0 ) {
 				_hit_point = 0;
 			}
 		}
@@ -44,33 +48,45 @@ public class Enemy : Character {
 		}
 	}
 
+	//移動処理
 	protected override void Move( ) {
 		transform.position += _enemy_move.Move( _move_speed ) * Time.deltaTime;
 	}
 
+	//死亡処理
 	protected override void Death( ) {
 		if ( _hit_point <= 0 ) {
+			AddScore( );
 
-			switch ( _enemy_type ) { 
-				case ENEMY_TYPE.TYPE_A:
-					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_A );
-					break;
-
-				case ENEMY_TYPE.TYPE_B:
-					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
-					break;
-
-				case ENEMY_TYPE.TYPE_C:
-					_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
-					break;
-
-				default:
-					Assert.IsNotNull( _enemy_move, "[Enemy]動きの種類が入ってません" );
-					break;
-			}
+			_audio_source.PlayOneShot( SoundRegistry.getSE( SoundRegistry.SE.EXPLOSION ) );
 
 			Destroy( this.gameObject );
 		}
+	}
+
+	//スコア加算
+	private void AddScore( ) { 
+		switch ( _enemy_type ) { 
+			case ENEMY_TYPE.TYPE_A:
+				_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_A );
+				break;
+
+			case ENEMY_TYPE.TYPE_B:
+				_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
+				break;
+
+			case ENEMY_TYPE.TYPE_C:
+				_scoreManager.AddScore( ScoreManager.SCORE.ENEMY_B );
+				break;
+
+			default:
+				Assert.IsNotNull( _enemy_move, "[Enemy]動きの種類が入ってません" );
+				break;
+		}
+	}
+
+	private void CheckReference( ) { 
+		Assert.IsNotNull( _audio_source, "[Enemy]AudioSourceがアタッチされていません" );
 	}
 
 	//初期化
